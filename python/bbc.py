@@ -2,7 +2,6 @@ import sys
 from bs4 import BeautifulSoup 
 import requests 
 import datetime
-sys.path.append("../")
 from summarize import getSummary
 
 headers = {

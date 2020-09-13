@@ -5,7 +5,8 @@ import pprint
 sys.path.append("../")
 from summarize import getSummary
 
-import datetime
+from datetime import datetime
+
 def parseTime(time):
     return time
 headers = {
@@ -19,8 +20,11 @@ def indianExpress(url):
     headlineSoup = soup.find(class_ = "heading-part")
     headline = headlineSoup.h1.text
     soup = soup.find(class_ = "full-details")
-    timeSoup = soup.find(id = "storycenterbyline")
-    time = timeSoup.span['content']
+    try:
+        timeSoup = soup.find(id = "storycenterbyline")
+        time = timeSoup.span['content']
+    except:
+        time=None
     imageSoup = soup.find(class_="custom-caption")
     image = imageSoup.img["src"]
     category = url.split('/')[4]
@@ -29,7 +33,10 @@ def indianExpress(url):
     for contentSoup in contentSoupList:
         content = content + contentSoup.text
     print(content)
-    summary, keywords = getSummary(content)
+    try :
+        summary, keywords = getSummary(content)   
+    except:
+        return {}     
     article = {
         "headline": headline,
         "time": time,
