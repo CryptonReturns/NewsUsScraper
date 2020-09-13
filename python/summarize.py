@@ -3,29 +3,15 @@ from gensim.summarization import keywords
 
 SUMMARY_SIZE = 80
 
-def getSummaryPerNews(news):
-    ratio = len(news["body"].split(" "))
-    news["body"] += "."
+def getSummary(newsArticle):
+    ratio = len(newsArticle.split(" "))
     ratio = (float)(SUMMARY_SIZE/ratio)
     if ratio >= 1:
         ratio = 1
-    news["body"] = summarize(news["body"], ratio)
+    body = summarize(newsArticle, ratio)
     ratio = 0.25
-    news["keywords"] = keywords(news["body"], ratio)
-    return news
-
-def getSummary(newsList):
-    updatedList = []
-    for news in newsList:
-        ratio = len(news["body"].split(" "))
-        ratio = (float)(SUMMARY_SIZE/ratio)
-        if ratio >= 1:
-            ratio = 1
-        news["body"] = summarize(news["body"], ratio)
-        ratio = 0.25
-        news["keywords"] = keywords(news["body"], ratio)
-        updatedList.append(news)
-    return updatedList
+    returnKeywords = keywords(body, ratio)
+    return (body, returnKeywords)
 
 
 if __name__ == "__main__":
