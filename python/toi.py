@@ -17,13 +17,20 @@ headers = {
 def toi(url):
     page = requests.get(url, headers=headers)
     soup = BeautifulSoup(page.content, 'html.parser')
-    text = soup.find(class_ = "_1_Akb clearfix").text
+    try:
+        text = soup.find(class_ = "_1_Akb clearfix").text
+    except:
+        return{}
     try:
         image = soup.find(class_ = "_2gIK-").find("img")["src"]
     except:
         image = None
     headline = soup.find(class_= "_2NFXP").h1.text
     time = None
+    try:
+        headline = soup.find(class_= "_2NFXP").h1.text
+    except:
+        return{}
     category = url.split('/')[3]
     content = text
     summary, keywords = getSummary(content)
@@ -36,7 +43,8 @@ def toi(url):
         "image_url": image,
         "body":summary,
         "keywords": keywords
-    }    
+    } 
+    print(article["headline"])
     return article
 
     # Object Model:
