@@ -15,10 +15,6 @@ firebase_admin.initialize_app(cred, {
 import time
 ref = db.reference('/')
 
-ref.set({
-		'articles': {}
-		})
-
 UPDATE_TIME = 120
 
 '''
@@ -42,13 +38,15 @@ def scrapeSports() :
 		articles.append(i)
 	return articles
 
-articles = {}
-articles["sports"] = []
+articles = []
 
 #server:
 while (True):
-	articles["sports"] += (scrapeSports())
 	ref.set({
-			'articles': articles
+		'sports': []
+	})
+	articles += (scrapeSports())
+	ref.set({
+			'sports': articles
 		})
 	time.sleep(UPDATE_TIME)
