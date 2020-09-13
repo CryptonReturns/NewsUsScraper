@@ -9,7 +9,6 @@ def getSummaryPerNews(news):
     ratio = (float)(SUMMARY_SIZE/ratio)
     if ratio >= 1:
         ratio = 1
-    print("------------------" + news["body"])
     news["body"] = summarize(news["body"], ratio)
     ratio = 0.25
     news["keywords"] = keywords(news["body"], ratio)

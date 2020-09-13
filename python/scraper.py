@@ -7,7 +7,7 @@ from csv import writer
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db   
-cred = credentials.Certificate('../cred.json')
+cred = credentials.Certificate('./cred.json')
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://newsusnetwork.firebaseio.com/'
 })
@@ -19,7 +19,7 @@ ref.set({
 		'articles': {}
 		})
 
-UPDATE_TIME = 5
+UPDATE_TIME = 120
 
 '''
 response = requests.get('https://leetcode.com/shubhamk314') 
