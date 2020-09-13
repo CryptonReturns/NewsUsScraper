@@ -46,6 +46,8 @@ def bbc(url):
         for contentSoup in contentSoupList:
             content = content + contentSoup.text
         summary, keywords = getSummary(content)
+        if len(summary.split(" ")) == 0:
+            flag = True
     except: 
         flag = True    
     if not flag:
