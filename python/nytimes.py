@@ -5,8 +5,7 @@ import pprint
 sys.path.append("../")
 from summarize import getSummary
 
-from datetime import datetime
-
+import datetime
 def parseTime(time):
     return time
 headers = {
@@ -14,38 +13,38 @@ headers = {
     "User-Agent" : "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0",
 }
 
-def indianExpress(url):
+
+def nytimes(url):
     page = requests.get(url, headers=headers)
     soup = BeautifulSoup(page.content, 'html.parser')
-    headlineSoup = soup.find(class_ = "heading-part")
-    headline = headlineSoup.h1.text
-    soup = soup.find(class_ = "full-details")
     try:
-        timeSoup = soup.find(id = "storycenterbyline")
-        time = timeSoup.span['content']
+        text = soup.find_all("section")[2].text
     except:
-        time=None
-    imageSoup = soup.find(class_="custom-caption")
-    image = imageSoup.img["src"]
-    category = url.split('/')[4]
-    content = ""
-    contentSoupList = soup.find_all('p', recursive=False)
-    for contentSoup in contentSoupList:
-        content = content + contentSoup.text
-    try :
-        summary, keywords = getSummary(content)   
+        return{}
+    try:
+        image = soup.find(class_ = "css-79elbk").find("img")["src"]
     except:
-        return {}     
+        image = None
+    headline = soup.find("h1").text
+    time = None
+    try:
+        headline = soup.find("h1").text
+    except:
+        return{}
+    category = "entertainment"
+    content = text
+    summary, keywords = getSummary(content)
     article = {
         "headline": headline,
         "time": time,
         "category": category,
         "url": url,
-        "source": "The Indian Express",
+        "source": "Times Of India",
         "image_url": image,
         "body":summary,
         "keywords": keywords
-    }    
+    } 
+
     return article
 
     # Object Model:
@@ -60,7 +59,3 @@ def indianExpress(url):
     # randomly generated id for object(mongo creates one on its own, idk about firebase, please see that..)
     # any other field you can think of
     # 9 including id
-
-if __name__ == "__main__":
-    indianExpress("https://indianexpress.com/article/sports/tennis/dominic-thiem-clay-bred-us-open-hard-court-contender-6593839/")
-    # print(1)
