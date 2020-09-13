@@ -24,7 +24,6 @@ def indianExpress(url):
     imageSoup = soup.find(class_="custom-caption")
     image = imageSoup.img["src"]
     category = url.split('/')[4]
-    # get content
     content = ""
     contentSoupList = soup.find_all('p', recursive=False)
     for contentSoup in contentSoupList:
@@ -41,11 +40,7 @@ def indianExpress(url):
         "body":summary,
         "keywords": keywords
     }    
-    pp = pprint.PrettyPrinter(indent=4)
-    # pp.pprint(article)
-    # print(article)
-    print(summary)
-    return []
+    return article
 
     # Object Model:
     # headline --
