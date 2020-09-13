@@ -17,7 +17,7 @@ cred_json = {
   "client_x509_cert_url": os.environ["CLIENT_CERT_URL"]
 }
 
-cred = credentials.Certificate('./cred.json')
+cred = credentials.Certificate(cred_json)
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://newsusnetwork.firebaseio.com/'
 })
