@@ -13,29 +13,26 @@ headers = {
     "User-Agent" : "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0",
 }
 
-def indianExpress(url):
+
+def toi(url):
     page = requests.get(url, headers=headers)
     soup = BeautifulSoup(page.content, 'html.parser')
-    headlineSoup = soup.find(class_ = "heading-part")
-    headline = headlineSoup.h1.text
-    soup = soup.find(class_ = "full-details")
-    timeSoup = soup.find(id = "storycenterbyline")
-    time = timeSoup.span['content']
-    imageSoup = soup.find(class_="custom-caption")
-    image = imageSoup.img["src"]
-    category = url.split('/')[4]
-    content = ""
-    contentSoupList = soup.find_all('p', recursive=False)
-    for contentSoup in contentSoupList:
-        content = content + contentSoup.text
-    print(content)
+    text = soup.find(class_ = "_1_Akb clearfix").text
+    try:
+        image = soup.find(class_ = "_2gIK-").find("img")["src"]
+    except:
+        image = None
+    headline = soup.find(class_= "_2NFXP").h1.text
+    time = None
+    category = url.split('/')[3]
+    content = text
     summary, keywords = getSummary(content)
     article = {
         "headline": headline,
         "time": time,
         "category": category,
         "url": url,
-        "source": "The Indian Express",
+        "source": "Times Of India",
         "image_url": image,
         "body":summary,
         "keywords": keywords
@@ -56,5 +53,4 @@ def indianExpress(url):
     # 9 including id
 
 if __name__ == "__main__":
-    indianExpress("https://indianexpress.com/article/sports/tennis/dominic-thiem-clay-bred-us-open-hard-court-contender-6593839/")
-    # print(1)
+    print(1)
